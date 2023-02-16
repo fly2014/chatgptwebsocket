@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Release\net7.0\publish\</_PublishTargetUrl>
-    <History>True|2023-02-16T03:47:33.0468368Z;True|2023-02-16T11:45:40.4062744+08:00;</History>
+    <History>True|2023-02-16T03:50:14.1066689Z;True|2023-02-16T11:47:33.0468368+08:00;True|2023-02-16T11:45:40.4062744+08:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
