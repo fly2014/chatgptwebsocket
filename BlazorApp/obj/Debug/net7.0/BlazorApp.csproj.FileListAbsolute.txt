@@ -30,3 +30,13 @@ C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\obj\Debug\net7.0\refint\Blazo
 C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\obj\Debug\net7.0\BlazorApp.pdb
 C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\obj\Debug\net7.0\BlazorApp.genruntimeconfig.cache
 C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\obj\Debug\net7.0\ref\BlazorApp.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.Extensions.Features.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp\obj\Debug\net7.0\BlazorApp.csproj.CopyComplete

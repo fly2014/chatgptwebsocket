@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iyxh+wyOvmkddo1fT1swTQmVUhFrEvPlkDaHF0+GiPU=",
+  "Hash": "m8Zz84Z3x007g6dSe1IyuFlIzJQUi5y7ThoRKbzaQjs=",
   "Source": "BlazorApp",
   "BasePath": "_content/BlazorApp",
   "Mode": "Default",
@@ -83,23 +83,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
-    },
-    {
-      "Identity": "C:\\Users\\DELL\\Source\\Repos\\chatgptblazor\\BlazorApp\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
-      "SourceId": "BlazorApp",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\DELL\\Source\\Repos\\chatgptblazor\\BlazorApp\\wwwroot\\",
-      "BasePath": "_content/BlazorApp",
-      "RelativePath": "css/open-iconic/FONT-LICENSE",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
     },
     {
       "Identity": "C:\\Users\\DELL\\Source\\Repos\\chatgptblazor\\BlazorApp\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
@@ -202,6 +185,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Identity": "C:\\Users\\DELL\\Source\\Repos\\chatgptblazor\\BlazorApp\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "SourceId": "BlazorApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\Source\\Repos\\chatgptblazor\\BlazorApp\\wwwroot\\",
+      "BasePath": "_content/BlazorApp",
+      "RelativePath": "css/open-iconic/FONT-LICENSE",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
     },
     {
       "Identity": "C:\\Users\\DELL\\Source\\Repos\\chatgptblazor\\BlazorApp\\wwwroot\\css\\open-iconic\\ICON-LICENSE",

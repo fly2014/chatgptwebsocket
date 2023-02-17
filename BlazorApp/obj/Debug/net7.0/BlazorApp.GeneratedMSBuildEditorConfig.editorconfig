@@ -16,42 +16,46 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\DELL\Source\Repos\chatgptblazor\BlazorApp
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/App.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Pages/Counter.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Pages/FetchData.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Pages/Index.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Shared/SurveyPrompt.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/_Imports.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Shared/MainLayout.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-3dsd3z3yec
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Shared/NavMenu.razor]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-7cxxmz0cwl
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Pages/Error.cshtml]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/DELL/Source/Repos/chatgptblazor/BlazorApp/Pages/_Host.cshtml]
+[C:/Users/DELL/source/repos/chatgptblazor/BlazorApp/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

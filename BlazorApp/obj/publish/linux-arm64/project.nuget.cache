@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "GlFaqv4Ys/45l8ezB4vZ34o519wO6vHKrsQpXcSIbgJHtHXlb7NY6tjLJnWMoZxJ71YVb4IuOdEzafXonQGerw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\DELL\\Source\\Repos\\chatgptblazor\\BlazorApp\\BlazorApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.app.host.linux-arm64\\7.0.2\\microsoft.netcore.app.host.linux-arm64.7.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
