@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\static"
+    "\\static",
+    "\\templates"
   ],
   "PreviewInSolutionExplorer": false
 }

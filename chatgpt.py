@@ -1,5 +1,6 @@
 import os
 import openai
+import ssl
 from flask import Flask, request, render_template, redirect,stream_template,make_response,session
 from flask_socketio import SocketIO,send, emit
 CONNECTIONS = {}
@@ -10,7 +11,7 @@ app.secret_key = b'_5#y2L"F4Q7z\n\xec]/'
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 def get_completion(question):
-    openai.api_key =session["token"]
+    openai.api_key = session["token"]
     try:
         response = openai.Completion.create(model="text-davinci-003",
             prompt=f"{question}\n",
@@ -46,11 +47,11 @@ def login():
 def index():
     username = 'no'
     token = ''
-    status='hello 请输入token 连接！'
+    status = 'hello 请输入token 连接！'
     if 'username' in session:
         username = session["username"]
         token = session["token"]
-        status='连接成功 欢迎光临'
+        status = '连接成功 欢迎光临'
     return  render_template("index.html",name=username,token=token,status=status)
 
 @socketio.on("cts")
@@ -61,6 +62,7 @@ def message(msg):
         socketio.emit('GetAiMsG',res)
     else:
         socketio.emit('GetAiMsG', "hello 请输入token 连接！")
-
+context = ('key.pem', 'certificate.pem')
 if __name__ == '__main__':
   socketio.run(app,host='0.0.0.0',port=80,debug='true')
+#  socketio.run(app,host='0.0.0.0',port=443,debug='false',keyfile='key.pem',certfile='certificate.pem')
