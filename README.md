@@ -1,6 +1,5 @@
-# chatgpt-websocket
-# chatgpt的websocket公开版
->补保存token   动态聊天 不需要翻篱笆  
+# chatgpt的websocket公开版   不需要翻篱笆 
+>补保存token   动态聊天 
 >可以公开使用   可以私密登录（name配置独立使用名字）  
 >python3.6以上  
 
