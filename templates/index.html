@@ -46,7 +46,7 @@
 
                 </div>
                 <small class="d-block text-end mt-3">
-                    <a href="#" id="clear">clear</a>
+                    <a href="javascript:void(0)" id="clear">clear</a>
                 </small>
             </div>
         </div>
@@ -67,9 +67,16 @@
                 onresf();
             })
         });
-
+        var omssageid = document.getElementById('mssageid');
+        omssageid.onkeydown = function (ev) {
+            ev = ev || window.event;
+            if (ev.keyCode == 13) {
+                oSendmsgs();
+            }
+        }
         var oSendmsg = document.getElementById('Sendmsg');
-        oSendmsg.onclick = function () {
+        oSendmsg.addEventListener('click', oSendmsgs);
+        function oSendmsgs() {
             var msg = document.getElementById('mssageid').value;
             msg = msg.trim();
             if (msg.length >= 1) {
