@@ -8,7 +8,7 @@
 `pip install flask`  
 `pip install websockets`  
 `pip install flask-socketio`  
-
+`pip install gevent-websocket` 
 >执行  
 python chatgpt.py  
 浏览器  
