@@ -48,11 +48,13 @@ def index():
     username = 'no'
     token = ''
     status = 'hello 请输入token 连接！'
+    inputtype='text'
     if 'username' in session:
         username = session["username"]
         token = session["token"]
         status = '连接成功 欢迎光临'
-    return  render_template("index.html",name=username,token=token,status=status)
+        inputtype='password'
+    return  render_template("index.html",name=username,token=token,status=status,inputtype=inputtype)
 
 @socketio.on("cts")
 def message(msg):
