@@ -35,12 +35,12 @@ def login():
     if name == 'almm':
         session["token"] = token
         session["username"] = name        
-        socketio.emit('GetAiMsG',name + "连接成功！")
+        socketio.emit('GetAiMsG',name + "连接成功！", room=request.sid) 
         return 'YES'
     else:
         session.pop('username', None)
         session.pop('token', None)
-        socketio.emit('GetAiMsG',"登录失败，请输入正确的名字！")
+        socketio.emit('GetAiMsG',"登录失败，请输入正确的名字！", room=request.sid) 
         return 'NO'
 
 @app.route('/')
@@ -61,9 +61,10 @@ def message(msg):
 #    print("message", msg)
     if 'username' in session:
         res = get_completion(msg)
-        socketio.emit('GetAiMsG',res)
+#        socketio.send('GetAiMsG',res)
+        socketio.emit('GetAiMsG', res, room=request.sid) 
     else:
-        socketio.emit('GetAiMsG', "hello 请输入token 连接！")
+        socketio.emit('GetAiMsG', "hello 请输入token 连接！", room=request.sid) 
 context = ('key.pem', 'certificate.pem')
 if __name__ == '__main__':
   socketio.run(app,host='0.0.0.0',port=80,debug='true')
