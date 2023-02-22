@@ -15,4 +15,4 @@ python chatgpt.py
 浏览器  
 http://localhost  
 
-![美景](http://img2.imgtn.bdimg.com/it/u=708621475,197951563&fm=23&gp=0.jpg)
+![美景](https://github.com/fly2014/chatgptpython/blob/master/static/nmlgb.jpg)
