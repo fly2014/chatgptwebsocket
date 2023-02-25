@@ -5,10 +5,8 @@
 
 `需要安装如下东西：  安装不了假如清华园`  
 `pip install openai  -i https://pypi.tuna.tsinghua.edu.cn/simple`  
-`pip install flask`  
+`pip install tornado`  
 `pip install websockets`  
-`pip install flask-socketio`  
-`pip install gevent-websocket` 
 >执行  
 python chatgpt.py  
 浏览器  

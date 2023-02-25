@@ -17,6 +17,7 @@
                     <label class="visually-hidden" for="stoken">token:</label>
                     <div class="input-group">
                         <div class="input-group-text">token:</div>
+                        {% module xsrf_form_html() %}
                         <input type="{{inputtype}}" class="form-control" value="{{token}}" id="stoken" placeholder="token">
                     </div>
                 </div>
@@ -38,7 +39,7 @@
                 </div>
                 <div class="col-md-4">
                     <button type="submit" id="Sendmsg" class="btn btn-primary h-100"> s e n d&nbsp;&nbsp; </button>
-                    <button type="submit" id="Sendmsg1"  class="btn btn-primary h-100"> 语音输入 </button>
+                    <button type="submit" id="Sendmsg1" class="btn btn-primary h-100"> 语音输入 </button>
                 </div>
             </div>
             <div class="my-3 p-3 bg-body rounded shadow-sm" id="">
@@ -52,22 +53,34 @@
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>-->
     <script src="marked.esm.js"></script>
 
     <script type="text/javascript">
         var dataJson = [];
         var socket;
         window.addEventListener("DOMContentLoaded", () => {
-            socket = io();
-            socket.on("connect", function () {
-                dataJson.unshift({ name: 'GPT', msg: '{{ status}}' });
+            //socket = io();
+            //socket.on("connect", function () {
+            //    dataJson.unshift({ name: 'GPT', msg: '{{ status}}' });
+            //    onresf();
+            //})
+            //socket.on("GetAiMsG", function (data) {
+            //    console.log(data);
+            //    dataJson.unshift({ name: 'GPT', msg: data });
+            //    onresf();
+            //})
+            //socket.on("updateSensorData", function (msg) {
+            //    console.log("Received sensorData :: " + msg.date + " :: " + msg.value);
+            //});
+            socket = new WebSocket("ws://" + location.host + "/cts");
+            socket.onopen = function (recv) {
+                console.log(recv.data);
+            };
+            socket.onmessage = function (recv) {
+                dataJson.unshift({ name: 'GPT', msg: recv.data });
                 onresf();
-            })
-            socket.on("GetAiMsG", function (data) {
-                dataJson.unshift({ name: 'GPT', msg: data });
-                onresf();
-            })
+            };
         });
         var omssageid = document.getElementById('mssageid');
         omssageid.onkeydown = function (ev) {
@@ -88,7 +101,8 @@
             if (msg.length >= 1) {
                 dataJson.unshift({ name: document.getElementById('snickname').value, msg: msg });
                 onresf();
-                socket.emit("cts", document.getElementById('mssageid').value);
+                //socket.emit("cts", document.getElementById('mssageid').value);
+                socket.send(JSON.stringify({'msg':msg,'tk': document.getElementById('stoken').value}));
                 document.getElementById('mssageid').value = '';
             }
         };
@@ -104,16 +118,26 @@
             if (token.length == 51) {
                 const data = new FormData();
                 data.append('token', token);
+                data.append('_xsrf', getCookie("_xsrf"));
                 data.append('name', document.getElementById('snickname').value);
                 fetch('/login', {
-                    method: 'POST',
+                    method: 'post',
                     body: data
                 }).then(function (response) {
                     response.text().then(function (text) {
                         console.log(text)
                         if (text == 'YES')
                             location.reload();
+                        else {
+                            if (text == 'NO') {
+                                dataJson.unshift({ name: 'GPT', msg: '请输入正确的名字' });
+                                onresf();
+                            } else
+                                location.reload();
+                        }
                     })
+                }).catch(function (err) {
+                    console.log(err);
                 });
             } else {
                 dataJson.unshift({ name: 'GPT', msg: '请输入正确的token' });
@@ -132,7 +156,6 @@
         }
         function gptjx(v) {
           //marked.parse
-            console.log(v);
             return v;
         }
         var isred = false;
@@ -155,6 +178,10 @@
                 }
             };
             recognition.start();
+        }
+        function getCookie(name) {
+            var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return r ? r[1] : undefined;
         }
     </script>
 </body>
