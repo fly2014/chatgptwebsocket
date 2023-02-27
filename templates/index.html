@@ -73,7 +73,7 @@
             //socket.on("updateSensorData", function (msg) {
             //    console.log("Received sensorData :: " + msg.date + " :: " + msg.value);
             //});
-            socket = new WebSocket("ws://" + location.host + "/cts");
+            socket = new WebSocket("wss://" + location.host + "/cts");
             socket.onopen = function (recv) {
                 console.log(recv.data);
             };
