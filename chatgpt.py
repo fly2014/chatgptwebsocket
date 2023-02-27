@@ -35,7 +35,7 @@ class LoginHandler(tornado.web.RequestHandler):
            self.write('NO') 
          if name == 'almm':#默认验证名字才能使用 部署请修改 判断openapi
             self.set_secure_cookie("name", name,expires_days=None)
-            self.set_secure_cookie("token",token)
+            self.set_secure_cookie("token",token,expires_days=None)
             self.write('YES')
          else:
             self.clear_all_cookies()
@@ -56,10 +56,10 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, jsonstr):
         token = self.get_secure_cookie('token')
         tk = json.loads(jsonstr)
-        token=tk["tk"]
-        message=tk["msg"]
+        token = tk["tk"]
+        message = tk["msg"]
         if token and token != 'None':
-             openai.api_key =token
+             openai.api_key = token
              res = yield self.get_question(message)
              self.write_message(markdown.markdown(res))
 
@@ -68,7 +68,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
 
     async def get_question(self, question):
         try:
-          response =await  openai.Completion.acreate(model="text-davinci-003",
+          response = await  openai.Completion.acreate(model="text-davinci-003",
             prompt=f"{question}\n",
             temperature=0.9,
             max_tokens=2048,
@@ -82,22 +82,25 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
         return response["choices"][0].text
 #        await gen.sleep(6)
 #        return q+'---NO'
-
 def make_app():
     settings = {
       "websocket_ping_interval":5,
+      "websocket_ping_timeout":60,
       "template_path":os.path.join(os.path.dirname(__file__), "templates"),
       "static_path": os.path.join(os.path.dirname(__file__), "static"),
       "login_url": "/login",
       "xsrf_cookies": True,
       "cookie_secret":"2hcicVu+TqShDpfsjMWQLZ0Mkq5NPEWSk9fi0zsSt0A=",
       "debug":True
-     }
+     }   
     return tornado.web.Application([(r"/", MainHandler),(r"/login", LoginHandler),(r"/cts", ChatSocketHandler)],**settings)
 
 async def main():
     app = make_app()
-    app.listen(80)   
+    ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    ssl_ctx.load_cert_chain(os.path.join(os.path.abspath("."), "certificate.pem"),os.path.join(os.path.abspath("."), "key.pem"))
+    http_server = tornado.httpserver.HTTPServer(app, ssl_options=ssl_ctx)
+    http_server.listen(443)   
     await asyncio.Event().wait()
     tornado.ioloop.IOLoop.current().start()
 
