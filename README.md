@@ -11,5 +11,3 @@
 python chatgpt.py  
 浏览器  
 http://localhost  
-
-![美景](https://github.com/fly2014/chatgpt-websocket/blob/master/static/nmlgb.jpg)
