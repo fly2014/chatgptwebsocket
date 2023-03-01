@@ -27,7 +27,7 @@ class MainHandler(tornado.web.RequestHandler):
 class LoginHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("NO")
-        self.clear_all_cookies()
+        self.clear_all_cookies()        
     def post(self, *args, **kwargs):
          token = self.get_argument("token")
          name = self.get_argument("name")
@@ -42,6 +42,8 @@ class LoginHandler(tornado.web.RequestHandler):
             self.write('NO')
 
 class ChatSocketHandler(tornado.websocket.WebSocketHandler):
+    users={}
+    tempm={}
     @gen.coroutine
     def open(self):
         print("WebSocket open")
@@ -50,26 +52,47 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
         msg = 'hello 请输入token 连接！'
         if token and token != 'None':
              msg = '已经连接成功 欢迎光临'
-        self.write_message(msg)
+             self.users[name]=self
+        res = {'data':msg,'t':0}
+        res = json.dumps(res) 
+        self.write_message(res)
 
     @gen.coroutine
     def on_message(self, jsonstr):
         token = self.get_secure_cookie('token')
+        name = self.get_secure_cookie('name')
         tk = json.loads(jsonstr)
         token = tk["tk"]
         message = tk["msg"]
+        ctype = tk["type"]
         if token and token != 'None':
              openai.api_key = token
-             res = yield self.get_question(message)
-             self.write_message(markdown.markdown(res))
+             res = ''
+             if ctype == 0:
+                res = yield self.get_question(message)
+                res = json.dumps({'data':res,'t':0}) 
+             if ctype == 1:
+                res = yield self.get_question_images(message)
+             if self.users.get(name) is not None:
+                self.users[name].write_message(res)
+                if self.tempm.get(name) is not None:
+                   self.users[name].write_message(self.tempm[name])
+                   del self.tempm[name]
+             else:
+                self.tempm[name]=res
 
     def on_close(self):
         print("WebSocket closed")
-
+        name = self.get_secure_cookie("name")
+        if self.users.get(name) is not None:
+           del self.users[name]
     async def get_question(self, question):
         try:
-          response = await  openai.Completion.acreate(model="text-davinci-003",
+          response = await  openai.Completion.acreate(
+            model="text-davinci-003",
             prompt=f"{question}\n",
+#            prompt=f"<|endoftext|>{question}\n--\nLabel:",
+#            model= "content-filter-alpha",
             temperature=0.9,
             max_tokens=2048,
             top_p=1,
@@ -78,10 +101,41 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
             stop=None)
         except Exception as e:
 #          print(e)
-          return e.error['message']
+          return str(e)
         return response["choices"][0].text
 #        await gen.sleep(6)
 #        return q+'---NO'
+    async def get_question_images(self, question):
+        try:
+          response = openai.Image.create(prompt=question,
+            n=1,
+            response_format='b64_json',
+            size="1024x1024")
+        except Exception as e:
+          return  json.dumps({'data':str(e),'t':0})
+        return json.dumps({'data':response['data'][0]['b64_json'],'t':1})
+#
+esults = [{
+      "categories": {
+        "hate": False,
+        "hate/threatening": False,
+        "self-harm": False,
+        "sexual": True,
+        "sexual/minors": True,
+        "violence": False,
+        "violence/graphic": False
+      },
+      "category_scores": {
+        "hate": 0.18805529177188873,
+        "hate/threatening": 0.0001250059431185946,
+        "self-harm": 0.0003706029092427343,
+        "sexual": 0.0008735615410842001,
+        "sexual/minors": 0.0007470346172340214,
+        "violence": 0.0041268812492489815,
+        "violence/graphic": 0.00023186142789199948
+      },
+      "flagged": False
+    }]
 def make_app():
     settings = {
       "websocket_ping_interval":5,
@@ -99,8 +153,8 @@ async def main():
     app = make_app()
     ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
     ssl_ctx.load_cert_chain(os.path.join(os.path.abspath("."), "certificate.pem"),os.path.join(os.path.abspath("."), "key.pem"))
-    http_server = tornado.httpserver.HTTPServer(app, ssl_options=ssl_ctx)
-    http_server.listen(443)   
+    http_server = tornado.httpserver.HTTPServer(app)#, ssl_options=ssl_ctx)
+    http_server.listen(80)   
     await asyncio.Event().wait()
     tornado.ioloop.IOLoop.current().start()
 

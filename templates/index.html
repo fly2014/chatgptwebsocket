@@ -8,6 +8,21 @@
     <link href="css/site.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <title>gpt  You know</title>
+    <style type="text/css">
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
     <div class="main">
@@ -30,6 +45,8 @@
                 </div>
                 <div class="col-md-4">
                     <button type="submit" id="connect" class="btn btn-primary">connect</button>
+                    <input type="checkbox" onclick="checkboxOnclick()" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">image</label>
                 </div>
                 <div class="col-8">
                     <div class="input-group">
@@ -46,6 +63,7 @@
                 <h6 class="border-bottom pb-2 mb-0 text-primary">messages updates</h6>
                 <div id="uilist" class="overflow-auto" style="height:670px;">
 
+
                 </div>
                 <small class="d-block text-end mt-3">
                     <a href="javascript:void(0)" id="clear">clear</a>
@@ -53,40 +71,55 @@
             </div>
         </div>
     </div>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>-->
     <script src="marked.esm.js"></script>
-
     <script type="text/javascript">
         var dataJson = [];
         var socket;
+        var qtemp;
+        var isimage = 0;
         window.addEventListener("DOMContentLoaded", () => {
-            //socket = io();
-            //socket.on("connect", function () {
-            //    dataJson.unshift({ name: 'GPT', msg: '{{ status}}' });
-            //    onresf();
-            //})
-            //socket.on("GetAiMsG", function (data) {
-            //    console.log(data);
-            //    dataJson.unshift({ name: 'GPT', msg: data });
-            //    onresf();
-            //})
-            //socket.on("updateSensorData", function (msg) {
-            //    console.log("Received sensorData :: " + msg.date + " :: " + msg.value);
-            //});
-            socket = new WebSocket("wss://" + location.host + "/cts");
+            initwebsocket();
+        });
+        function checkboxOnclick() {
+            var checkbox1 = document.getElementById("exampleCheck1");
+            if (checkbox1.checked == true) {
+                isimage = 1;
+            } else {
+                isimage = 0;
+            }
+        }
+        function initwebsocket() {
+            socket = new WebSocket("ws://" + location.host + "/cts");
             socket.onopen = function (recv) {
-                console.log(recv.data);
+                //console.log(recv.data);
             };
             socket.onmessage = function (recv) {
-                dataJson.unshift({ name: 'GPT', msg: recv.data });
+                rdatajson = JSON.parse(recv.data);
+                dataJson.unshift({ date: new Date(), name: 'GPT', msg: rdatajson.data, type: rdatajson.t });
                 onresf();
             };
-        });
+            socket.onerror = function (e) {
+                console.log(e);
+            }
+            socket.onclose = function (e) {
+                console.log('[' + new Date() + '] websocket 断开');
+                console.log(e.code + ' ' + e.reason + ' ' + e.wasClean);
+                setTimeout(function () {
+                    initwebsocket();
+                }, 2000);
+            }
+        }
         var omssageid = document.getElementById('mssageid');
         omssageid.onkeydown = function (ev) {
             ev = ev || window.event;
             if (ev.keyCode == 13) {
                 oSendmsgs();
+            }
+            if (ev.keyCode == 38) {
+                document.getElementById('mssageid').value = qtemp;
+            }
+            if (ev.keyCode == 40) {
+                document.getElementById('mssageid').value = '';
             }
         }
         var oSendmsg = document.getElementById('Sendmsg');
@@ -99,17 +132,18 @@
             var msg = document.getElementById('mssageid').value;
             msg = msg.trim();
             if (msg.length >= 1) {
-                dataJson.unshift({ name: document.getElementById('snickname').value, msg: msg });
+                qtemp = msg;
+                dataJson.unshift({ date: new Date(), name: document.getElementById('snickname').value, msg: msg, 'type': 0 });
                 onresf();
                 //socket.emit("cts", document.getElementById('mssageid').value);
-                socket.send(JSON.stringify({'msg':msg,'tk': document.getElementById('stoken').value}));
+                socket.send(JSON.stringify({ 'msg': msg, 'tk': document.getElementById('stoken').value, 'type': isimage }));
                 document.getElementById('mssageid').value = '';
             }
         };
         var dclear = document.getElementById('clear');
         dclear.onclick = function () {
             dataJson = [];
-            onresf();
+            duilist.innerHTML = '';
         };
         var conn = document.getElementById('connect');
         conn.onclick = function () {
@@ -130,7 +164,7 @@
                             location.reload();
                         else {
                             if (text == 'NO') {
-                                dataJson.unshift({ name: 'GPT', msg: '请输入正确的名字' });
+                                dataJson.unshift({ type: 0, date: new Date(), name: 'GPT', msg: '请输入正确的名字' });
                                 onresf();
                             } else
                                 location.reload();
@@ -140,23 +174,30 @@
                     console.log(err);
                 });
             } else {
-                dataJson.unshift({ name: 'GPT', msg: '请输入正确的token' });
+                dataJson.unshift({ type: 0, date: new Date(), name: 'GPT', msg: '请输入正确的token' });
                 onresf();
             }
         };
         var duilist = document.getElementById('uilist');
         function onresf() {
-            duilist.innerHTML = '';
-            for (var p in dataJson) {
+            //return;
+            //duilist.innerHTML = '';
+            //duilist.insertAdjacentHTML('afterbegin', text);
+            //for (var p in dataJson)
+            p = 0;
+            {
                 if (dataJson[p].name == 'GPT')
-                    duilist.innerHTML += '<div class="d-flex text-muted pt-3"><svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg><p class="pb-3 mb-0 small lh-sm border-bottom"><strong class="d-block ">GPT说：</strong>' + gptjx(dataJson[p].msg) + '</p></div>';
+                    duilist.insertAdjacentHTML('afterbegin', '<div class="card-header text-success"><div class="d-inline bg-success">&nbsp;  &nbsp; </div> &nbsp;' + dataJson[p].name + '[' + dataJson[p].date + ']:</div><div class="card-body text-success">' + gptjx(dataJson[p]) + '</div>');
                 else
-                    duilist.innerHTML += '<div class="d-flex text-muted pt-3"><svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1" /><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg><p class="pb-3 mb-0 small lh-sm border-bottom"><strong class="d-block ">' + dataJson[p].name + '说：</strong>' + gptjx(dataJson[p].msg) + '</p></div>';
+                    duilist.insertAdjacentHTML('afterbegin', '<div class="card-header text-secondary"><div class="d-inline bg-secondary">&nbsp;  &nbsp; </div> &nbsp;' + dataJson[p].name + '[' + dataJson[p].date + ']:</div><div class="card-body text-secondary">' + gptjx(dataJson[p]) + '</div>');
             }
         }
-        function gptjx(v) {
-          //marked.parse
-            return v;
+        function gptjx(p) {
+            if (p.type == 0)
+                return marked.parse(p.msg);
+            if (p.type == 1)
+                return '<img style="width: 400px;height:400px;" src="data:image /png; base64,' + p.msg + '"/>'
+            //return '<img style="display: block;" src="' + p.msg + '" width="400" height="400">';
         }
         var isred = false;
         var iswrite = false;
