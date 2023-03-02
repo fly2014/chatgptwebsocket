@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\static",
+    "\\static\\css\\open-iconic\\font",
+    "\\static\\css\\open-iconic\\font\\css",
     "\\templates"
   ],
-  "SelectedNode": "\\templates\\index.html",
+  "SelectedNode": "\\chatgpt.py",
   "PreviewInSolutionExplorer": false
 }
