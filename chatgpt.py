@@ -15,6 +15,8 @@ import threading
 from time import sleep
 class MainHandler(tornado.web.RequestHandler):
    def get(self):
+         self.set_secure_cookie("name", 'laia',expires_days=None)
+         self.set_secure_cookie("token",'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',expires_days=None)
          name = self.get_secure_cookie('name')
          token = self.get_secure_cookie('token')
          status = 'hello 请输入token 连接！'
@@ -97,7 +99,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
             max_tokens=2048,
             top_p=1,
             frequency_penalty=0,
-            presence_penalty=0.6,
+            presence_penalty=0.5,
             stop=None)
         except Exception as e:
 #          print(e)
