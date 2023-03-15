@@ -35,7 +35,7 @@ class LoginHandler(tornado.web.RequestHandler):
            self.write('NO') 
          if name == 'almm':#默认验证名字才能使用 部署请修改 判断openapi
             self.set_secure_cookie("name", name,expires_days=None)
-            self.set_secure_cookie("token",token,expires_days=None)
+            self.set_secure_cookie("token",token)
             self.write('YES')
          else:
             self.clear_all_cookies()
@@ -89,7 +89,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
     async def get_question(self, question):
         try:
           response = await  openai.Completion.acreate(
-            model="text-davinci-003",
+            model="gpt-3.5-turbo",
             prompt=f"{question}\n",
 #            prompt=f"<|endoftext|>{question}\n--\nLabel:",
 #            model= "content-filter-alpha",
@@ -138,7 +138,7 @@ esults = [{
     }]
 def make_app():
     settings = {
-      "websocket_ping_interval":5,
+      "websocket_ping_interval":None,#链接关闭问题
       "websocket_ping_timeout":60,
       "template_path":os.path.join(os.path.dirname(__file__), "templates"),
       "static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -148,13 +148,14 @@ def make_app():
       "debug":True
      }   
     return tornado.web.Application([(r"/", MainHandler),(r"/login", LoginHandler),(r"/cts", ChatSocketHandler)],**settings)
-
+#ssl._create_default_https_context = ssl._create_unverified_context 好像没有什么卵用
 async def main():
     app = make_app()
     ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
     ssl_ctx.load_cert_chain(os.path.join(os.path.abspath("."), "certificate.pem"),os.path.join(os.path.abspath("."), "key.pem"))
-    http_server = tornado.httpserver.HTTPServer(app)#, ssl_options=ssl_ctx)
-    http_server.listen(80)   
+    http_server = tornado.httpserver.HTTPServer(app,ssl_options=ssl_ctx)
+    http_server.listen(443)   
+
     await asyncio.Event().wait()
     tornado.ioloop.IOLoop.current().start()
 
