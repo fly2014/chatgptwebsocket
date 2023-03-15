@@ -62,7 +62,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
         token = self.get_secure_cookie('token')
         name = self.get_secure_cookie('name')
         tk = json.loads(jsonstr)
-        token = tk["tk"]
+        #token = tk["tk"]
         message = tk["msg"]
         ctype = tk["type"]
         if token and token != 'None':
